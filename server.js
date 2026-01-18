@@ -1,31 +1,44 @@
-import express from "express";
-import cors from "cors";
-import fetch from "node-fetch";
+// ==========================
+// IMPORT
+// ==========================
+const express = require("express");
+const cors = require("cors");
 
 const app = express();
+
+// ==========================
+// MIDDLEWARE
+// ==========================
 app.use(cors());
 app.use(express.json());
 
-const API_KEY = "DAN_API_KEY_GEMINI";
+// ==========================
+// ROUTE TEST (QUAN TRỌNG)
+// ==========================
+app.get("/", (req, res) => {
+  res.send("✅ Server is running successfully!");
+});
 
+// ==========================
+// API CHAT (demo – sau này gắn API GPT/Gemini)
+// ==========================
 app.post("/chat", async (req, res) => {
-  const r = await fetch(
-    `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${API_KEY}`,
-    {
-      method: "POST",
-      headers: {"Content-Type": "application/json"},
-      body: JSON.stringify({
-        contents: [{ parts: [{ text: req.body.prompt }] }]
-      })
-    }
-  );
+  const { message } = req.body;
 
-  const d = await r.json();
+  if (!message) {
+    return res.status(400).json({ error: "No message provided" });
+  }
+
+  // demo trả lời
   res.json({
-    reply: d.candidates[0].content.parts[0].text
+    reply: `🤖 Bot nhận được: ${message}`,
   });
 });
 
-app.listen(3000, () =>
-  console.log("✅ Server chạy http://localhost:3000")
-);
+// ==========================
+// START SERVER (LUÔN CUỐI FILE)
+// ==========================
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log("🚀 Server running on port " + PORT);
+});
