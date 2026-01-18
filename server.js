@@ -4,35 +4,39 @@ const fetch = require("node-fetch");
 
 const app = express();
 
-// ================= MIDDLEWARE =================
+/* =====================
+   MIDDLEWARE
+===================== */
 app.use(cors());
 app.use(express.json());
 
-// ================= API KEY =================
-// ❗ KHÔNG ghi key cứng – dùng biến môi trường Render
-const API_KEY = process.env.GEMINI_API_KEY;
-
-// ================= TEST ROUTE =================
+/* =====================
+   TEST ROUTE (BẮT BUỘC)
+===================== */
 app.get("/", (req, res) => {
   res.send("✅ Server is running!");
 });
 
-// ================= CHAT API =================
+/* =====================
+   API CHAT (GEMINI)
+===================== */
 app.post("/chat", async (req, res) => {
   try {
-    const message = req.body.message;
+    const { message } = req.body;
     if (!message) {
       return res.status(400).json({ error: "No message provided" });
     }
 
+    const API_KEY = process.env.GEMINI_API_KEY;
+
     const response = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${API_KEY}`,
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`,
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          contents: [{ parts: [{ text: message }] }],
-        }),
+          contents: [{ parts: [{ text: message }] }]
+        })
       }
     );
 
@@ -40,7 +44,7 @@ app.post("/chat", async (req, res) => {
 
     const reply =
       data?.candidates?.[0]?.content?.parts?.[0]?.text ||
-      "❌ Bot không trả lời được";
+      "⚠️ Bot không trả lời được";
 
     res.json({ reply });
   } catch (err) {
@@ -49,8 +53,10 @@ app.post("/chat", async (req, res) => {
   }
 });
 
-// ================= START SERVER =================
+/* =====================
+   START SERVER (RENDER)
+===================== */
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-  console.log("🚀 Server running on port", PORT);
+  console.log("✅ Server running on port", PORT);
 });
