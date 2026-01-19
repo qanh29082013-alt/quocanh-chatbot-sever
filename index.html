@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<body>
+<h2>Login</h2>
+<input id="u" placeholder="username">
+<input id="p" type="password" placeholder="password">
+<button onclick="login()">Login</button>
+<button onclick="register()">Register</button>
+
+<script>
+async function login() {
+  const res = await fetch("/login", {
+    method: "POST",
+    headers: {"Content-Type":"application/json"},
+    body: JSON.stringify({ username:u.value, password:p.value })
+  });
+  if (res.ok) location.href="chat.html";
+  else alert("Sai thông tin");
+}
+
+async function register() {
+  await fetch("/register", {
+    method: "POST",
+    headers: {"Content-Type":"application/json"},
+    body: JSON.stringify({ username:u.value, password:p.value })
+  });
+  alert("Đăng ký xong");
+}
+</script>
+</body>
+</html>

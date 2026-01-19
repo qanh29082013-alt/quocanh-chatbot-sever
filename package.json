@@ -1,13 +1,22 @@
 {
   "name": "quocanh-chatbot-server",
   "version": "1.0.0",
-  "main": "server.js",
+  "type": "module",
   "scripts": {
     "start": "node server.js"
   },
   "dependencies": {
-    "express": "^4.19.2",
+    "@google/generative-ai": "^0.24.1",
+    "bcrypt": "^6.0.0",
+    "body-parser": "^2.2.2",
     "cors": "^2.8.5",
-    "node-fetch": "^2.6.7"
-  }
+    "express": "^4.22.1",
+    "express-session": "^1.18.2",
+    "node-fetch": "^3.3.2"
+  },
+  "description": "",
+  "main": "app.js",
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
 }

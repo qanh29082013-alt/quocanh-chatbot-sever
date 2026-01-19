@@ -1,0 +1,67 @@
+:root {
+  --bg: #343541;
+  --panel: #40414f;
+  --text: #fff;
+  --user: #19c37d;
+}
+
+.light {
+  --bg: #f7f7f8;
+  --panel: #ffffff;
+  --text: #000;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: system-ui;
+}
+
+.app {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+header {
+  padding: 10px;
+  background: var(--panel);
+  display: flex;
+  justify-content: space-between;
+}
+
+main {
+  flex: 1;
+  padding: 20px;
+  overflow-y: auto;
+}
+
+.msg {
+  max-width: 700px;
+  margin-bottom: 16px;
+  line-height: 1.5;
+}
+
+.user { color: var(--user); }
+.bot  { color: var(--text); }
+
+footer {
+  display: flex;
+  padding: 10px;
+  background: var(--panel);
+}
+
+textarea {
+  flex: 1;
+  resize: none;
+  padding: 10px;
+  border-radius: 6px;
+}
+
+button {
+  margin-left: 8px;
+  cursor: pointer;
+}
