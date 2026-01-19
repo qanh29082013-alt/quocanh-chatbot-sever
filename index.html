@@ -1,31 +1,62 @@
 <!DOCTYPE html>
-<html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <title>Login Demo</title>
+  <style>
+    body {
+      background: #0f172a;
+      color: white;
+      font-family: Arial;
+    }
+    .box {
+      width: 300px;
+      margin: 100px auto;
+    }
+    input, button {
+      width: 100%;
+      padding: 8px;
+      margin: 6px 0;
+    }
+    button {
+      background: #22c55e;
+      border: none;
+      cursor: pointer;
+    }
+  </style>
+</head>
 <body>
-<h2>Login</h2>
-<input id="u" placeholder="username">
-<input id="p" type="password" placeholder="password">
-<button onclick="login()">Login</button>
-<button onclick="register()">Register</button>
+
+<div class="box">
+  <h2>Đăng nhập</h2>
+
+  <input id="user" placeholder="Username">
+  <input id="pass" type="password" placeholder="Password">
+  <button onclick="login()">Tiếp tục</button>
+
+  <p id="msg"></p>
+</div>
 
 <script>
 async function login() {
   const res = await fetch("/login", {
     method: "POST",
-    headers: {"Content-Type":"application/json"},
-    body: JSON.stringify({ username:u.value, password:p.value })
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      username: user.value,
+      password: pass.value
+    })
   });
-  if (res.ok) location.href="chat.html";
-  else alert("Sai thông tin");
-}
 
-async function register() {
-  await fetch("/register", {
-    method: "POST",
-    headers: {"Content-Type":"application/json"},
-    body: JSON.stringify({ username:u.value, password:p.value })
-  });
-  alert("Đăng ký xong");
+  const data = await res.json();
+
+  if (data.success) {
+    document.body.innerHTML = "<h1>✅ Đăng nhập thành công</h1>";
+  } else {
+    msg.innerText = data.message;
+  }
 }
 </script>
+
 </body>
 </html>
